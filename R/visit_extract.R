@@ -1,7 +1,7 @@
-#' Extract fields from UK Biobank visit data
+#' Extract field data from UK Biobank visit data
 #'
 #' @description Extracts all instances/arrays of data for a UK Biobank
-#'   field(s). See \href{https://biobank.ndph.ox.ac.uk/showcase/}{https://biobank.ndph.ox.ac.uk/showcase/}
+#'   field(s) in clean "long" format. See \href{https://biobank.ndph.ox.ac.uk/showcase/}{https://biobank.ndph.ox.ac.uk/showcase/}
 #'   to identify field codes.
 #'
 #' @param visit_data Data frame/table with UK Biobank data.
@@ -18,16 +18,16 @@
 #' \dontrun{
 #' # Load data
 #' data_path <- ""  # add path to your data
-#' visit <- fread(data_path)
+#' visit_data <- fread(data_path)
 #'
 #' # Extract a field
-#' visit_extract(visit, 50)
+#' visit_extract(visit_data, 50)
 #'
 #' # Extract multiple fields
-#' visit_extract(visit, c(50, 21002))
+#' visit_extract(visit_data, c(50, 21002))
 #'
 #' # Manually specify a field name
-#' visit_extract(visit, c("height" = 50, 21002))
+#' visit_extract(visit_data, c("height" = 50, 21002))
 #' }
 #'
 #' @export

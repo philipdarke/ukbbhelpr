@@ -2,7 +2,7 @@
 % Please edit documentation in R/visit_extract.R
 \name{visit_extract}
 \alias{visit_extract}
-\title{Extract fields from UK Biobank visit data}
+\title{Extract field data from UK Biobank visit data}
 \usage{
 visit_extract(visit_data, fields)
 }
@@ -21,23 +21,23 @@ Data table with values of all instances/arrays for each field in
 }
 \description{
 Extracts all instances/arrays of data for a UK Biobank
-  field(s). See \href{https://biobank.ndph.ox.ac.uk/showcase/}{https://biobank.ndph.ox.ac.uk/showcase/}
+  field(s) in clean "long" format. See \href{https://biobank.ndph.ox.ac.uk/showcase/}{https://biobank.ndph.ox.ac.uk/showcase/}
   to identify field codes.
 }
 \examples{
 \dontrun{
 # Load data
 data_path <- ""  # add path to your data
-visit <- fread(data_path)
+visit_data <- fread(data_path)
 
 # Extract a field
-visit_extract(visit, 50)
+visit_extract(visit_data, 50)
 
 # Extract multiple fields
-visit_extract(visit, c(50, 21002))
+visit_extract(visit_data, c(50, 21002))
 
 # Manually specify a field name
-visit_extract(visit, c("height" = 50, 21002))
+visit_extract(visit_data, c("height" = 50, 21002))
 }
 
 }

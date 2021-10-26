@@ -1,29 +1,42 @@
-#' Extract raw fields from visit data
+#' Extract raw field data from UK Biobank visit data
 #'
-#' @description Internal function. Extracts all instances/arrays of data from a
-#'   UK Biobank field. See \code{https://biobank.ndph.ox.ac.uk/showcase/} to
-#'   identify field codes.
+#' @description Extracts all instances/arrays of data for a UK Biobank
+#'   field(s). See \href{https://biobank.ndph.ox.ac.uk/showcase/}{https://biobank.ndph.ox.ac.uk/showcase/}
+#'   to identify field codes.
 #'
-#' @param data Data frame/table with UK Biobank data.
+#' @param visit_data Data frame/table with UK Biobank data.
 #' @param fields Vector of fields to extract e.g. \code{50} or
 #'   \code{c(50, 21002)}.
 #'
-#' @return Data table with values of all instances/arrays for each field.
+#' @return Data table with all instances/arrays for each field in UK Biobank
+#'   "wide" format.
 #'
-#' @keywords internal
-#' @noRd
+#' @examples
+#' \dontrun{
+#' # Load data
+#' data_path <- ""  # add path to your data
+#' visit_data <- fread(data_path)
 #'
-visit_fields <- function (data, fields) {
+#' # Extract a field
+#' visit_fields(visit_data, 50)
+#'
+#' # Extract multiple fields
+#' visit_fields(visit_data, c(50, 21002))
+#' }
+#'
+#' @export
+#'
+visit_fields <- function (visit_data, fields) {
   # Check all fields have at least one column in data
   num_columns <- sapply(fields, function (field) {
-    length(stringr::str_which(names(data), paste0("^", field, "-")))
+    length(stringr::str_which(names(visit_data), paste0("^", field, "-")))
   })
   if (any(num_columns < 1)) {
     stop("Check field codes are correct. Are all fields in the data?")
   }
   # Extract fields
-  names(data) <- update_field_names(names(data))
+  names(visit_data) <- update_field_names(names(visit_data))
   pattern <- paste0("^", fields, "-\\d\\.\\d+$", collapse = "|")
   pattern <- paste0("^eid$|", pattern)
-  data[, stringr::str_which(names(data), pattern), with = FALSE]
+  visit_data[, stringr::str_which(names(visit_data), pattern), with = FALSE]
 }
