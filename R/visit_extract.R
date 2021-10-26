@@ -91,6 +91,9 @@ visit_extract <- function (visit_data, fields) {
   })
   # Combine data tables for each field
   out <- data.table::rbindlist(fields_data)
+  # Format dates
+  out[, date := lubridate::as_date(date)]
+  # Return data
   out <- out[order(eid, field, date)]
   out[]
 }
