@@ -2,7 +2,8 @@
 #'
 #' @description Extracts all instances/arrays of data for a UK Biobank
 #'   field(s) in clean "long" format. See \href{https://biobank.ndph.ox.ac.uk/showcase/}{https://biobank.ndph.ox.ac.uk/showcase/}
-#'   to identify field codes.
+#'   to identify field codes. Wrapper for \code{visit_fields()} which extracts
+#'   raw field data.
 #'
 #' @param visit_data Data frame/table with UK Biobank data.
 #' @param fields Vector of fields to extract e.g. \code{50} or
@@ -12,7 +13,9 @@
 #'
 #' @return Data table with values of all instances/arrays for each field in
 #'   "long" format i.e. \code{eid}, \code{date} of visit, \code{field} name and
-#'   \code{value} recorded by UK Biobank.
+#'   \code{value} recorded by UK Biobank. \code{array} is provided if any fields
+#'   have multiple arrays (more than one value recorded on the same date e.g
+#'   repeated blood pressure).
 #'
 #' @examples
 #' \dontrun{
@@ -33,9 +36,7 @@
 #' @export
 #'
 visit_extract <- function (visit_data, fields) {
-  eid = field = name = NULL
-  # Drop date from fields
-  fields <- fields[fields != 53]
+  eid = field = name = value = instance = n = NULL
   # Add missing field names from schema
   field_names <- names(fields)
   if (is.null(field_names) | any(field_names == "")) {
@@ -48,52 +49,28 @@ visit_extract <- function (visit_data, fields) {
     }
     names(fields) <- field_names
   }
-  # Coerce input to data table if needed
-  if (!data.table::is.data.table(visit_data)) {
-    visit_data <- data.table::as.data.table(visit_data)
+  field_names <- data.table::data.table(field = fields, name = names(fields))
+  # Get instance dates
+  all_dates <- visit_fields(visit_data, 53, format = "long")
+  if (identical(unname(fields), 53)) {
+    # Return dates only
+    out <- merge(all_dates, field_names, by = "field")
+    out <- out[, list(eid, field = name, value)]
+  } else {
+    # Return date with dates
+    out <- visit_fields(visit_data, fields[fields != 53], format = "long")
+    out <- merge(out, field_names, by = "field")
+    out <- merge(out,
+                 all_dates[, list(eid, field, instance, date = value)],
+                 by = c("eid", "instance"))
+    # Return array column if any field has multiple arrays
+    out <- if (out[, list(n = length(array)), by = c("eid", "date", "name")][n > 1, length(n)] > 0) {
+      out[, list(eid, date, field = name, array, value)]
+    } else {
+      out[, list(eid, date, field = name, value)]
+    }
   }
-  # Get all data
-  all_data <- visit_fields(visit_data, c(53, fields))  # 53 = visit date
-  all_data_names <- names(all_data)
-  # For each field...
-  fields_data <- lapply(fields, function (field) {
-    # ...identify instances
-    field_name <- names(fields[fields == field])
-    instances <- stringr::str_match(all_data_names, paste0("^", field, "-(\\d+).(\\d+)$"))
-    instances <- unique(instances[, 2])
-    instances <- instances[!is.na(instances)]
-    # For each instance...
-    instances_data <- lapply(instances, function (instance) {
-      # Get data
-      date_code <- paste0("53-", instance, ".0")
-      pattern <- paste0("^", c(53, field), "-", instance, "\\.\\d+$", collapse = "|")
-      pattern <- paste0("^eid$|", pattern)
-      instance_data <- all_data[, stringr::str_which(all_data_names, pattern), with = FALSE]
-      # Form long data table
-      suppressWarnings(
-        # Suppress type coercion warnings
-        instance_data <- data.table::melt(instance_data,
-                                          id.vars = c("eid", date_code),
-                                          variable.name = "field",
-                                          variable.factor = FALSE,
-                                          na.rm = TRUE)
-      )
-      instance_data[, field := field_name]
-      # Update column names
-      instance_names <- names(instance_data)
-      instance_names[instance_names == date_code] <- "date"
-      names(instance_data) <- instance_names
-      # Return table
-      instance_data
-    })
-    # Combine data tables for each instance
-    data.table::rbindlist(instances_data)
-  })
-  # Combine data tables for each field
-  out <- data.table::rbindlist(fields_data)
-  # Format dates
+  # Format dates and return
   out[, date := lubridate::as_date(date)]
-  # Return data
-  out <- out[order(eid, field, date)]
   out[]
 }

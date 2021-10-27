@@ -17,12 +17,15 @@ Alternatively, field names can be set using a named vector e.g.
 \value{
 Data table with values of all instances/arrays for each field in
   "long" format i.e. \code{eid}, \code{date} of visit, \code{field} name and
-  \code{value} recorded by UK Biobank.
+  \code{value} recorded by UK Biobank. \code{array} is provided if any fields
+  have multiple arrays (more than one value recorded on the same date e.g
+  repeated blood pressure).
 }
 \description{
 Extracts all instances/arrays of data for a UK Biobank
   field(s) in clean "long" format. See \href{https://biobank.ndph.ox.ac.uk/showcase/}{https://biobank.ndph.ox.ac.uk/showcase/}
-  to identify field codes.
+  to identify field codes. Wrapper for \code{visit_fields()} which extracts
+  raw field data.
 }
 \examples{
 \dontrun{

@@ -3,7 +3,7 @@
 #' @description Internal function. Current format is [field]-[instance].[array]
 #'   where instance is the visit and each array is an observation recorded under
 #'   the field. The previous format was `@[field][instance].[array]`. For
-#'   example, `@200021.14` becomes `20002-1.14` (the 14th observation recorded
+#'   example, `@200021.14` becomes `20002-1.14` (the 15th observation recorded
 #'   under field 20002 at the first follow-up visit).
 #'
 #' @param current Vector of field names.

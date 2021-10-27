@@ -4,17 +4,18 @@
 \alias{visit_fields}
 \title{Extract raw field data from UK Biobank visit data}
 \usage{
-visit_fields(visit_data, fields)
+visit_fields(visit_data, fields, format = "wide")
 }
 \arguments{
 \item{visit_data}{Data frame/table with UK Biobank data.}
 
 \item{fields}{Vector of fields to extract e.g. \code{50} or
 \code{c(50, 21002)}.}
+
+\item{format}{Format of output table i.e. "wide" or "long" (default "wide").}
 }
 \value{
-Data table with all instances/arrays for each field in UK Biobank
-  "wide" format.
+Data table with all instances/arrays for each field.
 }
 \description{
 Extracts all instances/arrays of data for a UK Biobank
@@ -32,6 +33,9 @@ visit_fields(visit_data, 50)
 
 # Extract multiple fields
 visit_fields(visit_data, c(50, 21002))
+
+# Extract multiple fields in long format
+visit_fields(visit_data, c(50, 21002), format = "long")
 }
 
 }

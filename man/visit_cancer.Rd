@@ -7,8 +7,8 @@
 visit_cancer(visit_data)
 }
 \arguments{
-\item{visit_data}{Data frame/table with UK Biobank data. Must include 20001 and
-20006 fields.}
+\item{visit_data}{Data frame/table with UK Biobank data. Must include fields
+\code{20001} and \code{20006}.}
 }
 \value{
 Data table with \code{eid}, \code{date}, \code{condition} and
