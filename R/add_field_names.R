@@ -11,6 +11,7 @@
 #' @noRd
 #'
 add_field_names <- function (fields) {
+  field = name = NULL
   field_names <- names(fields)
   if (is.null(field_names) | any(field_names == "")) {
     schema <- get_schema()
