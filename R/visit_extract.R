@@ -38,17 +38,7 @@
 visit_extract <- function (visit_data, fields) {
   eid = field = name = value = instance = n = NULL
   # Add missing field names from schema
-  field_names <- names(fields)
-  if (is.null(field_names) | any(field_names == "")) {
-    schema <- get_schema()
-    if (is.null(field_names)) {
-      field_names <- schema[field %in% fields, name]
-    } else {
-      missing_names <- which(field_names == "")
-      field_names[missing_names] <- schema[field %in% fields[missing_names], name]
-    }
-    names(fields) <- field_names
-  }
+  fields <- add_field_names(fields)
   field_names <- data.table::data.table(field = fields, name = names(fields))
   # Get instance dates
   all_dates <- visit_fields(visit_data, 53, format = "long")
