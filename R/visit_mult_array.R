@@ -24,7 +24,7 @@
 visit_mult_array <- function (visit_data, fields) {
   eid = field = value = NULL
   # Check input
-  if (length(fields != 2)) {
+  if (length(fields) != 2) {
     stop('Argument "fields" must be length 2')
   }
   # Update field names
