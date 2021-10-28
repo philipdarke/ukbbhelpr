@@ -1,6 +1,6 @@
 #' Download UK Biobank schema
 #'
-#' URL: http://biobank.ctsu.ox.ac.uk/ukb/scdown.cgi?fmt=txt&id=16
+#' @description Internal function. Schema URL is \href{http://biobank.ctsu.ox.ac.uk/ukb/scdown.cgi?fmt=txt&id=16}{http://biobank.ctsu.ox.ac.uk/ukb/scdown.cgi?fmt=txt&id=16}.
 #'
 #' @keywords internal
 #' @noRd

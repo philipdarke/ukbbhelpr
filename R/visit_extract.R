@@ -1,7 +1,8 @@
 #' Extract field data from UK Biobank visit data
 #'
 #' @description Extracts all instances/arrays of data for a UK Biobank
-#'   field(s) in clean "long" format. See \href{https://biobank.ndph.ox.ac.uk/showcase/}{https://biobank.ndph.ox.ac.uk/showcase/}
+#'   field(s) in clean "long" format (NOTE: watch for type coercion of
+#'   different data types). See \href{https://biobank.ndph.ox.ac.uk/showcase/}{https://biobank.ndph.ox.ac.uk/showcase/}
 #'   to identify field codes. Wrapper for \code{visit_fields()} which extracts
 #'   raw field data.
 #'

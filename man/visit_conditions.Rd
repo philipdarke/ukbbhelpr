@@ -19,5 +19,7 @@ Data table with \code{eid}, \code{date}, \code{condition} and
 }
 \description{
 Extracts self-reported non-cancer medical history in a "long"
-  format that is easier to work with than "wide" as provided by UK Biobank.
+  format that is easier to work with than "wide" as provided by UK Biobank
+  (NOTE: watch for type coercion of different data types). Wrapper
+  function for \code{visit_mult_array()}.
 }

@@ -12,7 +12,8 @@ visit_fields(visit_data, fields, format = "wide")
 \item{fields}{Vector of fields to extract e.g. \code{50} or
 \code{c(50, 21002)}.}
 
-\item{format}{Format of output table i.e. "wide" or "long" (default "wide").}
+\item{format}{Format of output table i.e. "wide" or "long" (default "wide").
+NOTE: watch for type coercion if use long format.}
 }
 \value{
 Data table with all instances/arrays for each field.

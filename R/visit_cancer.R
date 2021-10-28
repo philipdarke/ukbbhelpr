@@ -1,7 +1,9 @@
 #' Extract self-reported cancer history
 #'
 #' @description Extracts self-reported cancer history in a "long" format that is
-#'   easier to work with than "wide" as provided by UK Biobank.
+#'   easier to work with than "wide" as provided by UK Biobank (NOTE: watch for
+#'   type coercion of different data types). Wrapper function for
+#'   \code{visit_mult_array()}.
 #'
 #' @param visit_data Data frame/table with UK Biobank data. Must include fields
 #'   \code{20001} and \code{20006}.
@@ -15,15 +17,9 @@
 #' @export
 #'
 visit_cancer <- function (visit_data) {
-  eid = condition = field = value = reported = NULL
+  eid = condition = reported = NULL
   # Extract conditions
-  sr_data <- visit_extract(visit_data, c("condition" = 20001, "date" = 20006))
-  # Combine condition and date of diagnosis
-  condition <- sr_data[field == "condition",
-                       list(eid, reported = date, array, condition = value)]
-  diagnosis <- sr_data[field == "date",
-                       list(eid, reported = date, array, date = value)]
-  sr_data <- merge(condition, diagnosis, by = c("eid", "reported", "array"), all = TRUE)
+  sr_data <- visit_mult_array(visit_data, c("condition" = 20001, "date" = 20006))
   # Drop unknown conditions and dates
   sr_data <- sr_data[condition != 99999]
   sr_data[date <= 0, date := NA]

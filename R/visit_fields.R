@@ -8,6 +8,7 @@
 #' @param fields Vector of fields to extract e.g. \code{50} or
 #'   \code{c(50, 21002)}.
 #' @param format Format of output table i.e. "wide" or "long" (default "wide").
+#'   NOTE: watch for type coercion if use long format.
 #'
 #' @return Data table with all instances/arrays for each field.
 #'
