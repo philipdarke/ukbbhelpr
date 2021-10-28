@@ -59,8 +59,7 @@ visit_extract <- function (visit_data, fields) {
     } else {
       out[, list(eid, date, field = name, value)]
     }
+    out[, date := lubridate::as_date(date)]
   }
-  # Format dates and return
-  out[, date := lubridate::as_date(date)]
   out[]
 }
