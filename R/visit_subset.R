@@ -8,6 +8,7 @@
 #'   utility.
 #' @param fields Vector of fields to extract e.g. \code{50} or
 #'   \code{c(50, 21002)}.
+#' @param ... Passed to \code{fread} e.g. to set file separator.
 #' @param save Optional path to save output.
 #'
 #' @return Data table with all instances/arrays for each field. Note the date
@@ -15,9 +16,9 @@
 #'
 #' @export
 #'
-visit_subset <- function(data_path, fields, save = NULL) {
+visit_subset <- function(data_path, fields, ..., save = NULL) {
   # Load data
-  data_cols <- data.table::fread(data_path, nrows = 1, header = TRUE)
+  data_cols <- data.table::fread(data_path, nrows = 1, header = TRUE, ...)
   # Determine column numbers
   names(data_cols) <- update_field_names(names(data_cols))
   pattern <- paste0("^", c(53, fields), "-\\d\\.\\d+$", collapse = "|")  # 53 = visit date

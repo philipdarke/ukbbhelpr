@@ -4,7 +4,7 @@
 \alias{visit_subset}
 \title{Subset fields from UK Biobank visit data}
 \usage{
-visit_subset(data_path, fields, save = NULL)
+visit_subset(data_path, fields, ..., save = NULL)
 }
 \arguments{
 \item{data_path}{Path to raw UK Biobank data unpacked using \code{ukbunpack}
@@ -12,6 +12,8 @@ utility.}
 
 \item{fields}{Vector of fields to extract e.g. \code{50} or
 \code{c(50, 21002)}.}
+
+\item{...}{Passed to \code{fread} e.g. to set file separator.}
 
 \item{save}{Optional path to save output.}
 }
