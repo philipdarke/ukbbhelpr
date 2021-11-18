@@ -14,6 +14,8 @@ devtools::install_github("philipdarke/ukbbhelpr", dependencies = TRUE)
 
 The main functionality is summarised below. See the [manual](ukbbhelpr_0.1.0.pdf) for more details.
 
+Functions for use with data collected at UK Biobank assessment centre visits start `visit_`. Functions for use with primary care EHR data start `ehr_`.
+
 ### `ehr_extract(ehr_data, read_codes)`
 
 Extracts observations/test results from linked EHR data (`ehr_data`) from records matching the provided `read_codes`. Data is extracted from the `value1` field with the exception of data provider 2 where values are extracted from `value2` if `value1` is empty. Units are taken from `value3` for data provider 2 (otherwise units are unavailable). `NA`, zero and duplicate values are dropped.
@@ -32,7 +34,7 @@ Extracts self-reported cancer history from `visit_data` in a "long" format that 
 
 ### `visit_family_history(visit_data, fields, condition)`
 
-Determines presence of a specified `condition` in the self-reported family history data (`visit_data`). If multiple history `fields` are provided (e.g. history of mother and father), presence of the condition in either field determines a positive family history.
+Determines presence of a specified `condition` in the self-reported family history data (`visit_data`). If multiple history `fields` are provided (e.g. history of mother and father), presence of the condition in any field determines a positive family history.
 
 ## Licence
 
