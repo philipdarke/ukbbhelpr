@@ -11,15 +11,15 @@
 #' @noRd
 #'
 add_field_names <- function (fields) {
-  field = name = NULL
+  field_id = title = NULL
   field_names <- names(fields)
   if (is.null(field_names) | any(field_names == "")) {
     schema <- get_schema()
     if (is.null(field_names)) {
-      field_names <- schema[field %in% fields, name]
+      field_names <- schema[field_id %in% fields, title]
     } else {
       missing_names <- which(field_names == "")
-      field_names[missing_names] <- schema[field %in% fields[missing_names], name]
+      field_names[missing_names] <- schema[field_id %in% fields[missing_names], title]
     }
     names(fields) <- field_names
   }
