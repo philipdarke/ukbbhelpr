@@ -30,6 +30,6 @@ visit_subset <- function(data_path, fields, ..., save = NULL) {
     fwrite(out, save)
     message(paste("File saved to", save))
   } else {
-    out
+    out[]
   }
 }

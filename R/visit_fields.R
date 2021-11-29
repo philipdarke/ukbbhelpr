@@ -60,5 +60,5 @@ visit_fields <- function (visit_data, fields, format = "wide") {
     field_codes <- split_field_code(out$variable)
     out <- cbind(out[, list(eid)], field_codes, out[, list(value)])
   }
-  out
+  out[]
 }

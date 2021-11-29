@@ -50,7 +50,6 @@ visit_family_history <- function (visit_data, fields, condition, collapse = TRUE
   }
   # Get data and check for condition at each date
   history_data <- visit_extract(visit_data, fields)
-  out <-
   # Simplify across dates if collapse = TRUE
   out <- if (collapse) {
     history_data[,
@@ -67,5 +66,5 @@ visit_family_history <- function (visit_data, fields, condition, collapse = TRUE
     out_names[out_names == "history"] <- name
     names(out) <- out_names
   }
-  out
+  out[]
 }

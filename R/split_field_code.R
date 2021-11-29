@@ -15,5 +15,5 @@ split_field_code <- function (code) {
   codes <- matrix(as.numeric(codes[, -1]), ncol = 3)
   codes <- data.table::data.table(codes)
   names(codes) <- c("field", "instance", "array")
-  codes
+  codes[]
 }

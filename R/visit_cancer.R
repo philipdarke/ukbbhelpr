@@ -24,8 +24,9 @@ visit_cancer <- function (visit_data) {
   sr_data <- sr_data[condition != 99999]
   sr_data[date <= 0, date := NA]
   # Update and return
-  sr_data[, list(eid,
-                 date = lubridate::as_date(lubridate::date_decimal(date)),
-                 condition,
-                 reported)]
+  out <- sr_data[, list(eid,
+                        date = lubridate::as_date(lubridate::date_decimal(date)),
+                        condition,
+                        reported)]
+  out[]
 }
