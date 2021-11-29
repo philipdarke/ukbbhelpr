@@ -11,11 +11,14 @@ visit_cancer(visit_data)
 \code{20001} and \code{20006}.}
 }
 \value{
-Data table with \code{eid}, \code{date}, \code{condition} and
-  \code{reported} columns. \code{date} is the reported date of diagnosis and
-  \code{reported} is the date the cancer was self-reported to UK Biobank.
-  \code{condition} is the cancer type coded as in
-  \href{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=3}{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=3}.
+Data table with the following columns: \describe{
+  \item{eid}{UK Biobank identifier.}
+  \item{date}{Reported date of diagnosis.}
+  \item{condition}{Cancer type coded as in
+  \href{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=3}{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=3}.}
+  \item{desc}{Description of cancer type (added if coding data can be downloaded).}
+  \item{reported}{Visit date at which the cancer was self-reported.}
+}
 }
 \description{
 Extracts self-reported cancer history in a "long" format that is

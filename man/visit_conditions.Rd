@@ -11,11 +11,14 @@ visit_conditions(visit_data)
 \code{20002} and \code{20008}.}
 }
 \value{
-Data table with \code{eid}, \code{date}, \code{condition} and
-  \code{reported} columns. \code{date} is the reported date of diagnosis and
-  \code{reported} is the date the condition was self-reported to UK Biobank.
-  \code{condition} is the health condition coded as in
-  \href{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}.
+Data table with the following columns: \describe{
+  \item{eid}{UK Biobank identifier.}
+  \item{date}{Reported date of diagnosis.}
+  \item{condition}{Health condition coded as in
+  \href{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}.}
+  \item{desc}{Description of health condition (added if coding data can be downloaded).}
+  \item{reported}{Visit date at which the condition was self-reported.}
+}
 }
 \description{
 Extracts self-reported non-cancer medical history in a "long"

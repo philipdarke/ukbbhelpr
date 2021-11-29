@@ -8,25 +8,38 @@
 #' @param visit_data Data frame/table with UK Biobank data. Must include fields
 #'   \code{20002} and \code{20008}.
 #'
-#' @return Data table with \code{eid}, \code{date}, \code{condition} and
-#'   \code{reported} columns. \code{date} is the reported date of diagnosis and
-#'   \code{reported} is the date the condition was self-reported to UK Biobank.
-#'   \code{condition} is the health condition coded as in
-#'   \href{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}.
+#' @return Data table with the following columns: \describe{
+#'   \item{eid}{UK Biobank identifier.}
+#'   \item{date}{Reported date of diagnosis.}
+#'   \item{condition}{Health condition coded as in
+#'   \href{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}{https://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=6}.}
+#'   \item{desc}{Description of health condition (added if coding data can be downloaded).}
+#'   \item{reported}{Visit date at which the condition was self-reported.}
+#' }
 #'
 #' @export
 #'
 visit_conditions <- function (visit_data) {
-  eid = condition = reported = NULL
+  eid = condition = reported = coding = desc = meaning = NULL
   # Extract conditions
   sr_data <- visit_mult_array(visit_data, c("condition" = 20002, "date" = 20008))
   # Drop unknown conditions and dates
   sr_data <- sr_data[condition != 99999]
   sr_data[date <= 0, date := NA]
-  # Update and return
+  # Get condition names and return
   out <- sr_data[, list(eid,
                         date = lubridate::as_date(lubridate::date_decimal(date)),
                         condition,
                         reported)]
+  tryCatch({
+    coding6 <- get_coding(6)
+    out <- merge(out,
+                 coding6[coding > 0, list(condition = coding, desc = meaning)],
+                 by = "condition", all.x = TRUE)
+    out <- out[, list(eid, date, condition, desc, reported)]
+  },
+  error = function(e) {
+    message("Could not add condition description field.")
+  })
   out[]
 }

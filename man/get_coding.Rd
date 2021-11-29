@@ -7,7 +7,7 @@
 get_coding(id, overwrite = FALSE)
 }
 \arguments{
-\item{id}{ID for coding file. Obtain from UK Biobank Showcase at \href{https://biobank.ndph.ox.ac.uk/showcase/}{https://biobank.ndph.ox.ac.uk/showcase/}.}
+\item{id}{ID for coding file. Obtain this from the data dictionary for your application, or directly from the Data Showcase (\href{https://biobank.ndph.ox.ac.uk/showcase/}{https://biobank.ndph.ox.ac.uk/showcase/}), by looking up the relevant data field.}
 
 \item{overwrite}{Overwrite existing file (default FALSE).}
 }
@@ -15,5 +15,5 @@ get_coding(id, overwrite = FALSE)
 Data table with contents of coding file.
 }
 \description{
-File is downloaded to root directory if it is unavailable locally.
+Returns the UK Biobank coding file for the supplied \code{id}. The file is downloaded if it is unavailable locally.
 }
