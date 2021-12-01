@@ -1,6 +1,7 @@
 import(data.table)
 
 export(ehr_extract)
+export(ehr_map_codes)
 export(get_coding)
 export(visit_cancer)
 export(visit_conditions)

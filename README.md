@@ -14,7 +14,7 @@ devtools::install_github("philipdarke/ukbbhelpr", dependencies = TRUE)
 
 The main functionality is summarised below. See the [manual](ukbbhelpr_0.1.0.pdf) for more details.
 
-Functions for use with data collected at UK Biobank assessment centre visits start `visit_`. Functions for use with primary care EHR data start `ehr_`.
+Functions for use with data collected at UK Biobank assessment centre visits start `visit_`. Functions for use with primary care EHR data start `ehr_`. Functions starting `get_` fetch data from other sources e.g. UK Biobank dictionaries.
 
 ### `ehr_extract(ehr_data, read_codes)`
 

@@ -4,5 +4,6 @@
 .pdf$
 ^schema$
 ^coding
+^map
 ^.*\.Rproj$
 ^\.Rproj\.user$

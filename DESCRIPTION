@@ -13,7 +13,8 @@ Depends:
 Imports:
     data.table,
     lubridate,
-    stringr
+    stringr,
+    readxl
 RoxygenNote: 7.1.2
 Suggests: 
     testthat
