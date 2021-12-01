@@ -46,7 +46,7 @@ visit_family_history <- function (visit_data, fields, condition, collapse = TRUE
   # Check fields input
   fields <- fields[fields %in% c(20107, 20110, 20111)]
   if (length(fields) == 0) {
-    stop("Can only use family history fields (20107, 20110 and/or 20111).")
+    stop("Specify which family history fields to query (20107, 20110 and/or 20111 only).")
   }
   # Get data and check for condition at each date
   history_data <- visit_extract(visit_data, fields)
