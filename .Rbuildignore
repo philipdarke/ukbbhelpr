@@ -1,6 +1,8 @@
+.Rproj$
+^\.Rproj\.user\$
+^\data\$
+.pdf$
+^schema$
+^coding
 ^.*\.Rproj$
 ^\.Rproj\.user$
-data\*
-^schema$
-.pdf$
-

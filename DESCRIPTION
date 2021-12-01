@@ -1,7 +1,7 @@
 Package: ukbbhelpr
 Type: Package
 Title: Helper functions for UK Biobank data
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: person("Philip", "Darke", email = "p.a.darke2@newcastle.ac.uk",
                   role = c("aut", "cre"))
 Description: A collection of helper functions for working with UK Biobank data.
