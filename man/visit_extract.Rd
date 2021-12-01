@@ -4,7 +4,7 @@
 \alias{visit_extract}
 \title{Extract field data from UK Biobank visit data}
 \usage{
-visit_extract(visit_data, fields)
+visit_extract(visit_data, fields, format = NULL)
 }
 \arguments{
 \item{visit_data}{Data frame/table with UK Biobank data.}
@@ -13,13 +13,24 @@ visit_extract(visit_data, fields)
 \code{c(50, 21002)}. Field name will be identified from UK Biobank schema.
 Alternatively, field names can be set using a named vector e.g.
 \code{c("height" = 50, "weight" = 21002)}.}
+
+\item{format}{Format of output table (\code{raw} or \code{source}). Default
+is currently raw but will change to source in a future release.}
 }
 \value{
 Data table with values of all instances/arrays for each field in
-  "long" format i.e. \code{eid}, \code{date} of visit, \code{field} name and
-  \code{value} recorded by UK Biobank. \code{array} is provided if any fields
-  have multiple arrays (more than one value recorded on the same date e.g
-  repeated blood pressure).
+  "long" format. The following columns are provided: \describe{
+    \item{eid}{UK Biobank identifier.}
+    \item{date}{Visit date.}
+    \item{field/variable}{Field name (see below).}
+    \item{array}{Provided if any fields have multiple arrays (more than one
+    value recorded on the same date e.g repeated blood pressure).}
+    \item{value}{Value recorded.}
+  }
+  If \code{format} = "source", an additional column \code{source} = "ukbb" is
+  added to indicate data was recorded by UK Biobank and the field column is
+  renamed \code{variable}. This will be the default in a future release. Use
+  \code{format} = "raw" to keep current format.
 }
 \description{
 Extracts all instances/arrays of data for a UK Biobank

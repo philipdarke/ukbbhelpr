@@ -11,12 +11,22 @@
 #'   \code{c(50, 21002)}. Field name will be identified from UK Biobank schema.
 #'   Alternatively, field names can be set using a named vector e.g.
 #'   \code{c("height" = 50, "weight" = 21002)}.
+#' @param format Format of output table (\code{raw} or \code{source}). Default
+#'    is currently raw but will change to source in a future release.
 #'
 #' @return Data table with values of all instances/arrays for each field in
-#'   "long" format i.e. \code{eid}, \code{date} of visit, \code{field} name and
-#'   \code{value} recorded by UK Biobank. \code{array} is provided if any fields
-#'   have multiple arrays (more than one value recorded on the same date e.g
-#'   repeated blood pressure).
+#'   "long" format. The following columns are provided: \describe{
+#'     \item{eid}{UK Biobank identifier.}
+#'     \item{date}{Visit date.}
+#'     \item{field/variable}{Field name (see below).}
+#'     \item{array}{Provided if any fields have multiple arrays (more than one
+#'     value recorded on the same date e.g repeated blood pressure).}
+#'     \item{value}{Value recorded.}
+#'   }
+#'   If \code{format} = "source", an additional column \code{source} = "ukbb" is
+#'   added to indicate data was recorded by UK Biobank and the field column is
+#'   renamed \code{variable}. This will be the default in a future release. Use
+#'   \code{format} = "raw" to keep current format.
 #'
 #' @examples
 #' \dontrun{
@@ -36,8 +46,17 @@
 #'
 #' @export
 #'
-visit_extract <- function (visit_data, fields) {
+visit_extract <- function (visit_data, fields, format = NULL) {
   eid = field = name = value = instance = n = NULL
+  # Warn on output format
+  if (is.null(format)) {
+    format <- "raw"
+    message('Output format will change in a future release. Use format = "raw" to keep current format.')
+  } else {
+    if (!(format %in% c("raw", "source"))) {
+      stop('Argument "format" must be "raw" or "source".')
+    }
+  }
   # Add missing field names from schema
   fields <- add_field_names(fields)
   field_names <- data.table::data.table(field = fields, name = names(fields))
@@ -48,7 +67,7 @@ visit_extract <- function (visit_data, fields) {
     out <- merge(all_dates, field_names, by = "field")
     out <- out[, list(eid, field = name, value)]
   } else {
-    # Return date with dates
+    # Return data with dates
     out <- visit_fields(visit_data, fields[fields != 53], format = "long")
     out <- merge(out, field_names, by = "field")
     out <- merge(out,
@@ -56,9 +75,17 @@ visit_extract <- function (visit_data, fields) {
                  by = c("eid", "instance"))
     # Return array column if any field has multiple arrays
     out <- if (out[, list(n = length(array)), by = c("eid", "date", "name")][n > 1, length(n)] > 0) {
-      out[, list(eid, date, field = name, array, value)]
+      if (format == "source") {
+        out[, list(eid, date, variable = name, source = "ukbb", array, value)]
+      } else {
+        out[, list(eid, date, field = name, array, value)]
+      }
     } else {
-      out[, list(eid, date, field = name, value)]
+      if (format == "source") {
+        out[, list(eid, date, variable = name, source = "ukbb", value)]
+      } else {
+        out[, list(eid, date, field = name, value)]
+      }
     }
     out[, date := lubridate::as_date(date)]
   }
