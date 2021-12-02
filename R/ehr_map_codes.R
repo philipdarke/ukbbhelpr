@@ -22,7 +22,8 @@ ehr_map_codes <- function (codes, from = "read2", to = "ctv3", overwrite = FALSE
   # Get mapping
   read2_ctv3 <- get_read2_ctv3_map(overwrite = overwrite)
   # Map codes of length 5+ only
-  in_codes <- data.table(READV2_CODE = substr(codes, 1, 5))
+  codes <- unique(codes[!is.na(codes)])
+  in_codes <- data.table::data.table(READV2_CODE = substr(codes, 1, 5))
   in_codes <- in_codes[stringr::str_length(READV2_CODE) == 5]
   if (nrow(in_codes) != length(codes)) {
     message("Read v2 codes shorter than 5 digits have been dropped.")

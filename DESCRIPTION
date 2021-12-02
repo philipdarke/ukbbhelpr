@@ -14,7 +14,10 @@ Imports:
     data.table,
     lubridate,
     stringr,
-    readxl
+    readxl,
+    ConceptLibraryClient
+Remotes:
+    github::SwanseaUniversityMedical/ConceptLibraryClient
 RoxygenNote: 7.1.2
 Suggests: 
     testthat
