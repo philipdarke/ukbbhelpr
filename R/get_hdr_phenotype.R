@@ -1,4 +1,4 @@
-#' Get phenotype from HDR UK phenotype library.
+#' Get phenotype from HDR UK phenotype library
 #'
 #' Queries HDR UK phenotype library for a given phenotype. Read v2 codes are
 #' mapped to CTV3 if the \code{read2} argument is passed.
@@ -19,6 +19,10 @@ get_hdr_phenotype <- function (id, version_id, api = NULL, read2 = NULL) {
   read_2 = read_3 = code = coding_system = description = NULL
   code_attributes.Disease = code_attributes.Category =  phenotype_id = NULL
   phenotype_version_id = phenotype_name = NULL
+  # Check arguments
+  argument_check(id, "string")
+  argument_check(version_id, "number")
+  argument_check(read2, "character", null.ok = TRUE)
   # Get HDR phenotype
   if (is.null(api)) {
     api <- ConceptLibraryClient::connect_to_API(url = HDR_API)

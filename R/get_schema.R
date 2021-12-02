@@ -8,8 +8,8 @@
 #' @noRd
 #'
 get_schema <- function (overwrite = FALSE) {
-  url = "https://biobank.ctsu.ox.ac.uk/ukb/scdown.cgi?fmt=txt&id=16"
-  path = "schema"
+  url <- "https://biobank.ctsu.ox.ac.uk/ukb/scdown.cgi?fmt=txt&id=16"
+  path <- "schema"
   # Get schema
   if (!download_file(url, path, overwrite)) {
     stop("Could not download file.")

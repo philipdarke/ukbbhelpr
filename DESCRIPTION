@@ -11,11 +11,12 @@ LazyData: false
 Depends:
     R (>= 2.10)
 Imports:
+    ConceptLibraryClient,
     data.table,
     lubridate,
-    stringr,
     readxl,
-    ConceptLibraryClient
+    stringr,
+    checkmate
 Remotes:
     github::SwanseaUniversityMedical/ConceptLibraryClient
 RoxygenNote: 7.1.2

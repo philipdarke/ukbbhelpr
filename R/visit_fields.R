@@ -32,9 +32,10 @@
 #'
 visit_fields <- function (visit_data, fields, format = "wide") {
   eid = value = NULL
-  if (!(format %in% c("wide", "long"))) {
-    stop('Argument "format" must be "wide" or "long".')
-  }
+  # Check arguments
+  argument_check(visit_data, "data_table")
+  argument_check(fields, "numeric", unique = TRUE)
+  argument_check(format, "choice", choices = c("wide", "long"))
   # Check all fields have at least one column in data
   num_columns <- sapply(fields, function (field) {
     length(stringr::str_which(names(visit_data), paste0("^", field, "-")))

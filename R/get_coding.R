@@ -10,9 +10,12 @@
 #' @export
 #'
 get_coding <- function (id, overwrite = FALSE) {
-  url = paste0("https://biobank.ctsu.ox.ac.uk/ukb/codown.cgi?id=", id)
-  path = paste0("coding", id)
-  # Get schema
+  # Check arguments
+  argument_check(id, "number")
+  argument_check(overwrite, "flag")
+  # Get coding file
+  url <- paste0("https://biobank.ctsu.ox.ac.uk/ukb/codown.cgi?id=", id)
+  path <- paste0("coding", id)
   if (!download_file(url, path, overwrite)) {
     stop("Could not download file.")
   }

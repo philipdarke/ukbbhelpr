@@ -23,16 +23,15 @@
 #'
 visit_mult_array <- function (visit_data, fields) {
   eid = field = value = NULL
-  # Check input
-  if (length(fields) != 2) {
-    stop('Argument "fields" must be length 2.')
-  }
+  # Check arguments
+  argument_check(visit_data, "data_table")
+  argument_check(fields, "numeric", unique = TRUE, len = 2)
   # Update field names
   fields <- add_field_names(fields)
   fields_new <- unname(fields)
   fields_new <- c("a" = fields_new[1], "b" = fields_new[2])
   # Extract and combine field data
-  data_raw <- visit_extract(visit_data, fields_new)
+  data_raw <- visit_extract(visit_data, fields_new, format = "raw")
   table_a <- data_raw[field == "a",
                       list(eid, reported = date, array, a = value)]
   table_b <- data_raw[field == "b",

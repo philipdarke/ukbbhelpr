@@ -43,13 +43,14 @@
 #'
 visit_family_history <- function (visit_data, fields, condition, collapse = TRUE, name = NULL) {
   eid = value = NULL
-  # Check fields input
-  fields <- fields[fields %in% c(20107, 20110, 20111)]
-  if (length(fields) == 0) {
-    stop("Specify which family history fields to query (20107, 20110 and/or 20111 only).")
-  }
+  # Check arguments
+  argument_check(visit_data, "data_table")
+  argument_check(fields, "subset", choices = c(20107, 20110, 20111))
+  argument_check(condition, "number")
+  argument_check(collapse, "flag")
+  argument_check(name, "string", null.ok = TRUE)
   # Get data and check for condition at each date
-  history_data <- visit_extract(visit_data, fields)
+  history_data <- visit_extract(visit_data, fields, format = "raw")
   # Simplify across dates if collapse = TRUE
   out <- if (collapse) {
     history_data[,

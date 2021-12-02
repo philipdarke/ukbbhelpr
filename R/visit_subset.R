@@ -17,6 +17,10 @@
 #' @export
 #'
 visit_subset <- function(data_path, fields, ..., save = NULL) {
+  # Check arguments
+  argument_check(data_path, "string")
+  argument_check(fields, "numeric", unique = TRUE)
+  argument_check(save, "string", null.ok = TRUE)
   # Load data
   data_cols <- data.table::fread(data_path, nrows = 1, header = TRUE, ...)
   # Determine column numbers

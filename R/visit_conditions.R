@@ -21,6 +21,8 @@
 #'
 visit_conditions <- function (visit_data) {
   eid = condition = reported = coding = desc = meaning = NULL
+  # Check arguments
+  argument_check(visit_data, "data_table")
   # Extract conditions
   sr_data <- visit_mult_array(visit_data, c("condition" = 20002, "date" = 20008))
   # Drop unknown conditions and dates

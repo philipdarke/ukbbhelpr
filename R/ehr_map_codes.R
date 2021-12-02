@@ -16,6 +16,9 @@
 #'
 ehr_map_codes <- function (codes, from = "read2", to = "ctv3", overwrite = FALSE) {
   READV2_CODE = READV3_CODE = TERMV3_DESC = TERMV3_TYPE = read_2 = read_3 = desc = NULL
+  # Check arguments
+  argument_check(codes, "character")
+  argument_check(overwrite, "flag")
   if (from != "read2" | to != "ctv3") {
     stop("Only mapping from Read v2 to CTV 3 is currently supported.")
   }

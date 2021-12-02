@@ -48,14 +48,15 @@
 #'
 visit_extract <- function (visit_data, fields, format = NULL) {
   eid = field = name = value = instance = n = NULL
+  # Check arguments
+  argument_check(visit_data, "data_table")
+  argument_check(fields, "numeric", unique = TRUE)
   # Warn on output format
   if (is.null(format)) {
     format <- "raw"
     message('Output format will change in a future release. Use format = "raw" to keep current format.')
   } else {
-    if (!(format %in% c("raw", "source"))) {
-      stop('Argument "format" must be "raw" or "source".')
-    }
+    argument_check(format, "choice", choices = c("raw", "source"))
   }
   # Add missing field names from schema
   fields <- add_field_names(fields)

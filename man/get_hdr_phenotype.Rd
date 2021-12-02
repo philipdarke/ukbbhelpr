@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_hdr_phenotype.R
 \name{get_hdr_phenotype}
 \alias{get_hdr_phenotype}
-\title{Get phenotype from HDR UK phenotype library.}
+\title{Get phenotype from HDR UK phenotype library}
 \usage{
 get_hdr_phenotype(id, version_id, api = NULL, read2 = NULL)
 }
