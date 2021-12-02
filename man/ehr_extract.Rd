@@ -2,24 +2,31 @@
 % Please edit documentation in R/ehr_extract.R
 \name{ehr_extract}
 \alias{ehr_extract}
-\title{Extract observations/test results from raw EHR data}
+\title{Extract EHR records and values}
 \usage{
-ehr_extract(ehr_data, read_codes)
+ehr_extract(ehr_data, read_codes, values = NULL)
 }
 \arguments{
-\item{ehr_data}{Data table/frame with UK Biobank clinical event data i.e.
+\item{ehr_data}{Data table with UK Biobank clinical event data i.e.
 \code{gp_clinical.txt}.}
 
-\item{read_codes}{Values are extracted from these codes. Data table/frame
-with Read v2 (\code{read_2}) and CTV3 (\code{read_3}) columns.}
+\item{read_codes}{Extract records matching these codes. Data table/frame
+with \code{read_2} (Read v2) and \code{read_3} (CTV3) columns.}
+
+\item{values}{Extract values from EHR records. Replaces the \code{value1},
+\code{value2}, \code{value3} columns with a single \code{value} column and
+a \code{unit} column. Default is currently TRUE but will change to FALSE
+in a future release.}
 }
 \value{
-Data table with \code{value} and \code{unit} columns.
+Filtered EHR data with \code{value} and \code{unit} columns if
+  \code{values} is TRUE.
 }
 \description{
-Extracts values from linked EHR data. Data is extracted from
-  the \code{value1} field with the exception of data provider 2 where values
-  are extracted from \code{value2} if \code{value1} is empty. Units are taken
-  from \code{value3} for data provider 2 (otherwise units are unavailable).
-  \code{NA}, zero and duplicate values are dropped.
+Extracts records/values from linked EHR data. If \code{values}
+  is TRUE, values are extracted the \code{value1} field with the exception of
+  data provider 2 where values are extracted from \code{value2} if
+  \code{value1} is empty. Units are taken from \code{value3} for data
+  provider 2 (otherwise units are unavailable). \code{NA}, zero and duplicate
+  values are dropped.
 }
