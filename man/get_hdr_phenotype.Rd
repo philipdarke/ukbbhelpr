@@ -4,24 +4,20 @@
 \alias{get_hdr_phenotype}
 \title{Get phenotype from HDR UK phenotype library}
 \usage{
-get_hdr_phenotype(id, version_id, api = NULL, read2 = NULL)
+get_hdr_phenotype(id, version_id = NULL, api = NULL)
 }
 \arguments{
 \item{id}{Phenotype ID.}
 
-\item{version_id}{Phenotype version ID.}
+\item{version_id}{Optional phenotype version ID. Otherwise latest version of
+phenotype is returned.}
 
 \item{api}{Optional HttpClient to connect to phenotype library (default uses
 \href{https://phenotypes.healthdatagateway.org/}{https://phenotypes.healthdatagateway.org/}).}
-
-\item{read2}{Optional vector of terms corresponding to Read v2 codes in the
-\code{coding_system} field. If provided, rows with these terms are mapped
-to CTV3 using UK Biobank mapping dictionaries.}
 }
 \value{
 Data table with phenotype codes.
 }
 \description{
-Queries HDR UK phenotype library for a given phenotype. Read v2 codes are
-mapped to CTV3 if the \code{read2} argument is passed.
+Queries HDR UK phenotype library for a given phenotype.
 }
