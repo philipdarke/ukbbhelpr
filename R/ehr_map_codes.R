@@ -4,9 +4,7 @@
 #' dictionaries. Currently supports mapping Read v2 to CTV 3 only.
 #'
 #' @param codes Vector of codes to map.
-#' @param from Terminology to map from. Currently supports Read v2 codes only
-#'   (first 5 digits excluding the final 2 digit term). Full 5 digit codes
-#'   must be passed i.e. no partial matching.
+#' @param from Terminology to map from. Currently supports Read v2 codes only.
 #' @param to Terminology to map to. Currently supports CTV3 only.
 #' @param overwrite Overwrite existing mapping dictionary (default FALSE).
 #'
@@ -15,7 +13,8 @@
 #' @export
 #'
 ehr_map_codes <- function (codes, from = "read2", to = "ctv3", overwrite = FALSE) {
-  READV2_CODE = READV3_CODE = TERMV3_DESC = TERMV3_TYPE = read_2 = read_3 = desc = NULL
+  code = READV2_CODE = TERMV2_ORDER = READV3_CODE = TERMV3_CODE = NULL
+  TERMV3_DESC = TERMV3_TYPE = desc = NULL
   # Check arguments
   argument_check(codes, "character")
   argument_check(overwrite, "flag")
@@ -24,24 +23,36 @@ ehr_map_codes <- function (codes, from = "read2", to = "ctv3", overwrite = FALSE
   }
   # Get mapping
   read2_ctv3 <- get_read2_ctv3_map(overwrite = overwrite)
-  # Map codes of length 5+ only
+  # Split Read v2 codes into codes/terms
   codes <- unique(codes[!is.na(codes)])
-  in_codes <- data.table::data.table(READV2_CODE = substr(codes, 1, 5))
-  in_codes <- in_codes[stringr::str_length(READV2_CODE) == 5]
-  if (nrow(in_codes) != length(codes)) {
-    message("Read v2 codes shorter than 5 digits have been dropped.")
+  out_codes <- data.table::data.table(code = codes)
+  out_codes[, READV2_CODE := stringr::str_pad(code, width = 5, side = "right", pad = ".")]
+  out_codes[, TERMV2_ORDER := "00"]
+  out_codes[stringr::str_length(codes) == 7, TERMV2_ORDER := substr(code, 6, 7)]
+  out_codes[, READV2_CODE := substr(READV2_CODE, 1, 5)]
+  # Check all codes have been split
+  out_codes <- out_codes[!is.na(READV2_CODE) & !is.na(TERMV2_ORDER)]
+  if (nrow(out_codes) != length(codes)) {
+    message(paste(length(codes) - nrow(out_codes), "codes could not be parsed."))
   }
-  out_codes <- merge(in_codes, read2_ctv3, by = "READV2_CODE")
-  out_codes <- out_codes[, list(read_2 = READV2_CODE,
+  # Map codes
+  out_codes <- merge(out_codes, read2_ctv3, by = c("READV2_CODE", "TERMV2_ORDER"))
+  out_codes <- out_codes[, list(code,
+                                read_2 = READV2_CODE,
+                                term_2 = TERMV2_ORDER,
                                 read_3 = READV3_CODE,
+                                term_3 = TERMV3_CODE,
                                 desc = TERMV3_DESC,
                                 TERMV3_TYPE)]
   out_codes <- unique(out_codes)
-  # Select preferred description where multiple terms are present
-  out_codes <- out_codes[order(read_3, TERMV3_TYPE, desc)]
+  # Use first preferred description alphabetically where multiple preferred
+  # terms are present for a CTV3 code e.g. XE2Pp
+  out_codes <- out_codes[order(TERMV3_TYPE, desc)]
   out_codes <- out_codes[,
                          utils::head(.SD, 1),
-                         by = read_3, .SDcols = c("read_2", "desc")]
-  out_codes <- out_codes[, list(read_2, read_3, desc)][order(read_2, read_3)]
+                         by = c("read_2", "term_2")]
+  # Return mapping table
+  out_codes[, TERMV3_TYPE := NULL]
+  data.table::setcolorder(out_codes, c(3, 1:2, 4:6))
   out_codes[]
 }

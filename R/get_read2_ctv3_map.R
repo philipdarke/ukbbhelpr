@@ -20,7 +20,7 @@ get_read2_ctv3_map <- function(overwrite = FALSE, extract_file = NULL) {
   map_path <- "map_read2_ctv3"
   if (file.exists(map_path) & overwrite == FALSE) {
     # Open mapping
-    mapping <- fread(map_path)
+    mapping <- data.table::fread(map_path)
   } else {
     # Get mapping
     get_mapping(overwrite)
@@ -45,7 +45,7 @@ get_read2_ctv3_map <- function(overwrite = FALSE, extract_file = NULL) {
     # Impute missing TERMV3_DESC
     mapping[is.na(TERMV3_DESC) | TERMV3_DESC == "", TERMV3_DESC := READV2_DESC]
     # Save
-    fwrite(mapping, map_path)
+    data.table::fwrite(mapping, map_path)
   }
   mapping[]
 }

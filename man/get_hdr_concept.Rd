@@ -20,8 +20,9 @@ length less than 5 are padded with a "." e.g. "C10" becomes "C10..". Codes
 are mapped to CTV3 using UK Biobank mapping dictionaries.}
 }
 \value{
-Data table with phenotype codes. \code{read_2} (Read v2) and
-  \code{read_3} (CTV3) columns are added if \code{read} is TRUE.
+Data table with phenotype codes. \code{read_2}/\code{term_2}
+  and \code{read_3}/\code{term_3} columns are added with codes and terms
+  under Read v2 and CTV3 if \code{read} is TRUE.
 }
 \description{
 Queries HDR UK phenotype library for a given concept. Read v2 codes are

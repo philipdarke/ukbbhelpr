@@ -12,13 +12,14 @@
 #'   length less than 5 are padded with a "." e.g. "C10" becomes "C10..". Codes
 #'   are mapped to CTV3 using UK Biobank mapping dictionaries.
 #'
-#' @return Data table with phenotype codes. \code{read_2} (Read v2) and
-#'   \code{read_3} (CTV3) columns are added if \code{read} is TRUE.
+#' @return Data table with phenotype codes. \code{read_2}/\code{term_2}
+#'   and \code{read_3}/\code{term_3} columns are added with codes and terms
+#'   under Read v2 and CTV3 if \code{read} is TRUE.
 #'
 #' @export
 #'
 get_hdr_concept <- function (id, version_id = NULL, api = NULL, read = FALSE) {
-  read_2 = read_3 = code = NULL
+  read_2 = read_3 = code = desc = NULL
   # Check arguments
   argument_check(id, "string")
   argument_check(read, "flag")
@@ -38,15 +39,9 @@ get_hdr_concept <- function (id, version_id = NULL, api = NULL, read = FALSE) {
   hdr_codes <- data.table::as.data.table(hdr_codes)
   # Add Read v2 codes and map to CTV3
   if (read) {
-    hdr_codes[, read_2 := substr(code, 1, 5)]
-    hdr_codes[, read_2 := stringr::str_pad(read_2, width = 5, side = "right", pad = ".")]
-    ctv3_map <- ehr_map_codes(hdr_codes$read_2)
-    hdr_codes <- merge(hdr_codes,
-                       ctv3_map[, list(read_2, read_3)],
-                       by = "read_2", all.x = TRUE)
-    n_cols <- ncol(hdr_codes)
-    data.table::setcolorder(hdr_codes, c(2:(n_cols - 1), 1, n_cols))
-
+    ctv3_map <- ehr_map_codes(hdr_codes$code)
+    hdr_codes <- merge(hdr_codes, ctv3_map, by = "code", all.x = TRUE)
+    hdr_codes[, desc := NULL]
   }
   hdr_codes[]
 }

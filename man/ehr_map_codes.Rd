@@ -9,9 +9,7 @@ ehr_map_codes(codes, from = "read2", to = "ctv3", overwrite = FALSE)
 \arguments{
 \item{codes}{Vector of codes to map.}
 
-\item{from}{Terminology to map from. Currently supports Read v2 codes only
-(first 5 digits excluding the final 2 digit term). Full 5 digit codes
-must be passed i.e. no partial matching.}
+\item{from}{Terminology to map from. Currently supports Read v2 codes only.}
 
 \item{to}{Terminology to map to. Currently supports CTV3 only.}
 
